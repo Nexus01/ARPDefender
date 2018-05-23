@@ -103,9 +103,9 @@ public class response extends JFrame{
 
 				  String commandStr = "arp -a";
 				  A.exeCmd(commandStr);
-				  if(A.s7.equals("您正在遭受ARP攻击"))
-         centerTextArea.append(A.s6+A.s5+"\n");
-				centerTextArea.append(A.s7+time+"\n");
+				  if(A.whetherunderattack.equals("您正在遭受ARP攻击"))
+         centerTextArea.append(A.ip+A.mac+"\n");
+				centerTextArea.append(A.whetherunderattack+time+"\n");
 			}
 		});
 
@@ -116,11 +116,12 @@ public class response extends JFrame{
 			public void actionPerformed(ActionEvent e){
 
 				  A.exeCmd("arp -a");
-				  A.exeCm("netsh i i show in");
+				  //A.exeCm("netsh i i show in");
 
 
-				String sentence ="netsh -c i i add neighbors "+A.s8+" "+A.s6+" "+A.s5;
+				String sentence ="netsh -c i i add neighbors "+A.idx+" "+A.ip+" "+A.mac;
 				System.out.println(sentence);
+
 				try {
 					Process p = Runtime.getRuntime().exec(sentence);
 		            new BufferedReader(new InputStreamReader(p.getInputStream()));
@@ -142,7 +143,7 @@ public class response extends JFrame{
 				  A.exeCm("netsh i i show in");
 
 
-				String sentence ="netsh -c i i delete neighbors "+A.s8+" "+A.s6+" "+A.s5;
+				String sentence ="netsh -c i i delete neighbors "+A.idx+" "+A.ip;//+" "+A.mac;
 				System.out.println(sentence);
 				try {
 					Process p = Runtime.getRuntime().exec(sentence);
@@ -155,7 +156,7 @@ public class response extends JFrame{
 		});
 
 		//解绑
-
+		
 
 
 	}
