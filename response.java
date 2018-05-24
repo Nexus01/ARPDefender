@@ -11,9 +11,12 @@ import java.io.InputStreamReader;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.lang.Thread;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.plaf.FontUIResource;
+
 
 public class response extends JFrame{
 
@@ -21,12 +24,14 @@ public class response extends JFrame{
 	private JButton one;
 	private JButton two;
 	private JButton three;
-	private JTextArea centerTextArea;
+	private JButton four;
+	public  static JTextArea centerTextArea;
 
 
 
 	private void setup(){
 		this.setTitle("ARP攻击检测");
+		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(400,400);
 
@@ -54,9 +59,10 @@ public class response extends JFrame{
 		centerTextArea.setEditable(false);
 		centerTextArea.setBackground(new Color(211,211,211));
 		//显示
-		one=new JButton("检测");
+		one=new JButton("开始检测");
 		two=new JButton("绑定");
 		three=new JButton("解绑");
+		four=new JButton("选择网卡");
 		/* two three */
 
 
@@ -69,6 +75,7 @@ public class response extends JFrame{
 		panel.add(one);
 		panel.add(two);
 		panel.add(three);
+		panel.add(four);
 
 
 
@@ -97,19 +104,23 @@ public class response extends JFrame{
 
 		one.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				Date date=new Date();
-				  DateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				  final String time=format.format(date);
+				A.attackrecord.add("\n");
+				Scanthread scanning=new Scanthread();
+						scanning.start();
 
-				  String commandStr = "arp -a";
-				  A.exeCmd(commandStr);
-				  if(A.whetherunderattack.equals("您正在遭受ARP攻击"))
-         centerTextArea.append(A.ip+A.mac+"\n");
-				centerTextArea.append(A.whetherunderattack+time+"\n");
+//				Date date=new Date();
+//				  DateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//				  final String time=format.format(date);
+//
+//				  String commandStr = "arp -a";
+//				  A.exeCmd(commandStr);
+//				  if(A.whetherunderattack.equals("您正在遭受ARP攻击"))
+//         centerTextArea.append(A.ip+A.mac+"\n");
+//				centerTextArea.append(A.whetherunderattack+time+"\n");
 			}
 		});
 
-		//检测
+		//开始检测
 
 
 		two.addActionListener(new ActionListener(){
@@ -156,7 +167,20 @@ public class response extends JFrame{
 		});
 
 		//解绑
-		
+		four.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+
+
+				try {
+					new selectnet();
+				} catch (Exception e1) {
+					// TODO 自动生成的 catch 块
+					e1.printStackTrace();
+				}
+			}
+		});
+
+		//打开网卡选择窗口
 
 
 	}

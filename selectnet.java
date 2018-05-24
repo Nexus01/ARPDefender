@@ -44,6 +44,9 @@ public class selectnet extends JFrame {
                         t.setText("您选择了 " + c.getSelectedItem());
                     //}
                     A.idx = c.getSelectedItem().toString().substring(0, 4).trim();
+                    String[] temp= c.getSelectedItem().toString().split("\\s+\\p{Zs}");
+                    A.netcardunderattack=temp[temp.length-1];
+                    System.out.println("netcard is "+A.netcardunderattack+"\n");
                 } catch (NullPointerException e1) {
                     t.setText("请先点击扫描网卡");
                 }

@@ -6,8 +6,13 @@ import java.awt.desktop.ScreenSleepEvent;
 import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.text.BreakIterator;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
+import java.lang.Thread;
 
 public class A {
   protected static String whetherunderattack;
@@ -17,7 +22,11 @@ public class A {
 	protected static String dynamicinfo;
 	protected static String idx;//IDX编码
     protected static ArrayList<String> buffer=new ArrayList(2000);//存放网卡缓存区
+    protected static ArrayList<String> attackrecord=new ArrayList<>(100);//存放被攻击记录
     protected static int buffercount=0;
+    protected static int attacktimes=0;//被攻击次数
+    protected static String netcardunderattack;
+    protected static String netswitch;
 
 	public static void exeCm(String commandStr) {
         BufferedReader br = null;
@@ -124,8 +133,6 @@ public class A {
     		first=a-1;
     		ip=ss[3].substring(8).trim();
             mac=ss[first].trim();
-            //System.out.println(A.mac);
-            //System.out.println(first);
     		//路由器mac
 
 
@@ -139,7 +146,6 @@ public class A {
             	if(ss[a].trim().equals(dynamicinfo)||ss[a].trim().equals(s42))
             	  if(ss[a-1].trim().equals(ss[first].trim()))
             	  {
-
             		  whetherunderattack="您正在遭受ARP攻击";break;
             	  }
             }
@@ -164,6 +170,14 @@ public class A {
 
     }
 
+    public static void execute(String commandStr){
+        try{
+            Process p = Runtime.getRuntime().exec(commandStr);
+        }
+        catch (Exception ee){
+            System.out.println(ee.getMessage());
+        }
+    }
     public static void main(String[] args) {
 
 
