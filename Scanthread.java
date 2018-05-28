@@ -3,7 +3,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.lang.Thread;
-
 public class Scanthread extends Thread{
 
         public Scanthread() {
@@ -21,13 +20,19 @@ public class Scanthread extends Thread{
                     if (A.whetherunderattack.equals("您正在遭受ARP攻击")) {
                         A.attackrecord.add(A.whetherunderattack +"于"+ time + "\n"+"攻击者MAC地址为"+A.mac );
                         A.attacktimes++;
-                        response.centerTextArea.append(A.attackrecord.get(A.attacktimes));
-                        A.netswitch="disabled";
-                        commandStr="netsh interface set interface "+A.netcardunderattack+" "+A.netswitch;
-                        System.out.println(commandStr);
+                        A.underattacked=true;
+                        //response.centerTextArea.append(A.attackrecord.get(A.attacktimes));
+                        if(A.underattacked) {
+                            A.choice = response.makesure.showConfirmDialog(null, "遭受攻击，是否关闭网卡", "危险", response.makesure.YES_NO_OPTION);
+                            A.otherchoice=A.choice^1;
+                        }
+                        commandStr="netsh interface set interface "+A.netselected+" "+A.netswitch[A.choice];
+                        //System.out.println(commandStr);
                         A.execute(commandStr);
+                        A.underattacked=false;
                         break;
                     }
+
                     //attackrecord.add(A.whetherunderattack+time+"\n");
                 }
             }
@@ -35,6 +40,9 @@ public class Scanthread extends Thread{
                 {
                     System.out.println("扫描线程中异常为"+ e2.getMessage());
                 }
+                finally {
+                this.interrupt();
+            }
 
 
         }

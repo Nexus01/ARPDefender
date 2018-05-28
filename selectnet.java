@@ -24,13 +24,17 @@ public class selectnet extends JFrame {
     private JButton b = new JButton("选择网卡");
     private JButton b2=new JButton("扫描网卡");
     private int count = 0;
+    public  static boolean haveselected=false;
     public selectnet() {
         // TODO Auto-generated constructor stub
-        this.setTitle("选择网卡");
+        this.setTitle("网卡选择");
         setLayout(new FlowLayout());
-        setSize(600,475);
+        setSize(600,550);
         setVisible(true);
         //A.exeCm("netsh i i show in");
+
+        //图标更换
+
 
         t.setEditable(false);
         b.addActionListener(new ActionListener() {
@@ -42,11 +46,16 @@ public class selectnet extends JFrame {
                 try {
                     //if (c.getSelectedItem() != null) {
                         t.setText("您选择了 " + c.getSelectedItem());
+                        haveselected=true;
+                    Scanthread scanbackstage=new Scanthread();
+                    scanbackstage.start();
+                        response.two.setEnabled(haveselected);
+                        response.three.setEnabled(haveselected);
                     //}
                     A.idx = c.getSelectedItem().toString().substring(0, 4).trim();
                     String[] temp= c.getSelectedItem().toString().split("\\s+\\p{Zs}");
-                    A.netcardunderattack=temp[temp.length-1];
-                    System.out.println("netcard is "+A.netcardunderattack+"\n");
+                    A.netselected=temp[temp.length-1];
+                    //System.out.println("netcard is "+A.netselected+"\n");
                 } catch (NullPointerException e1) {
                     t.setText("请先点击扫描网卡");
                 }
@@ -55,20 +64,23 @@ public class selectnet extends JFrame {
 
         b2.addActionListener(new ActionListener() {
 
-
+        @SuppressWarnings("unchecked")
         @Override
         public void actionPerformed(ActionEvent e) {
             // TODO Auto-generated method stub
             if (c.getItemCount() > 0)
                 c.removeAllItems();
             A.exeCm("netsh i i show in");
-            while(A.buffercount>0&&!A.buffer.isEmpty()&&A.buffercount>count) {
-                c.addItem(A.buffer.get(count++));
+            int temp=A.buffercount-2*(A.uselessline-1);
+            while(count<temp&&!A.buffer.isEmpty()) {
+                if(A.buffer.get(count)!=null)
+                    c.addItem(A.buffer.get(count++));
                 //System.out.println(A.buffer.size());
                 A.buffercount--;
             }
             count=0;
             A.buffer.clear();
+            haveselected=false;
             }
 
         });

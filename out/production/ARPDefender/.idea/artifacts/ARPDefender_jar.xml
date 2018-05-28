@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="ARPDefender:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/ARPDefender_jar</output-path>
+    <root id="archive" name="ARPDefender.jar">
+      <element id="module-output" name="ARPDefender" />
+    </root>
+  </artifact>
+</component>
